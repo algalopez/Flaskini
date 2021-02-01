@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+  db:
+    build:
+      context: ..
+      dockerfile: database/Dockerfile
+    container_name: db
+    restart: 'always'
+    ports:
+      - 3306:3306
+    environment:
+      MARIADB_ROOT_PASSWORD: pass
+      MARIADB_DATABASE: flaskini
+      MARIADB_USER: user
+      MARIADB_PASSWORD: pass
+      MARIADB_INITDB_SKIP_TZINFO: 1
