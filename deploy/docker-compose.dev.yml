@@ -4,7 +4,7 @@ services:
   db:
     build:
       context: ..
-      dockerfile: database/Dockerfile
+      dockerfile: ../database/Dockerfile.db
     container_name: db
     restart: 'always'
     ports:

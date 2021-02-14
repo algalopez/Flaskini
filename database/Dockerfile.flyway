@@ -1,0 +1,4 @@
+FROM flyway/flyway:7.5
+
+COPY database/conf/flyway.properties /flyway/conf/flyway.conf
+COPY database/sql/ /flyway/sql/
