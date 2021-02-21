@@ -4,9 +4,8 @@ services:
   db:
     build:
       context: ..
-      dockerfile: ../database/Dockerfile.db
+      dockerfile: ./database/Dockerfile.db
     container_name: db
-    restart: 'always'
     ports:
       - 3306:3306
     environment:
@@ -15,3 +14,10 @@ services:
       MARIADB_USER: user
       MARIADB_PASSWORD: pass
       MARIADB_INITDB_SKIP_TZINFO: 1
+  sonar:
+    build:
+      context: ..
+      dockerfile: ./sonar/Dockerfile.sonar
+    container_name: sonar
+    ports:
+      - 9001:9000

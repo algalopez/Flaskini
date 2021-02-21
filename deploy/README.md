@@ -2,7 +2,7 @@
 
 ##Compose up
 
-```docker-compose -f deploy/docker-compose.dev.yml up -d```
+```docker-compose -f deploy/docker-compose.dev.yml up --build -d```
 
 ##Compose down
 

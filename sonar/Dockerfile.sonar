@@ -1,0 +1,6 @@
+FROM sonarqube:8.2-community
+
+COPY ./sonar/sonar.properties /opt/sonarqube/conf/
+
+VOLUME /opt/sonarqube/data
+VOLUME /opt/sonarqube/extensions
