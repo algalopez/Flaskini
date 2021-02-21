@@ -1,21 +1,28 @@
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 import logging
+from app import registry, configuration
 
-# engine: sqlalchemy.engine.Engine
-engine = None
+REGISTRY_NAME = 'database_engine'
 
 
-def start_database():
-    global engine
-    engine = sqlalchemy.create_engine('mysql+pymysql://user:pass@127.0.0.1:3306/flaskini')
-    logging.debug('database tables: %s' % engine.table_names())
+def load():
+    logging.info(f"Loading database engine")
+
+    database_config = registry.get(configuration.REGISTRY_NAME).get('database')
+
+    user = database_config.get('user')
+    password = database_config.get('password')
+    host = database_config.get('host')
+    port = database_config.get('port')
+    database = database_config.get('database')
+    engine = sqlalchemy.create_engine(f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}")
+    registry.register(REGISTRY_NAME, engine)
+    return engine
 
 
 def get_session():
-    global engine
-    if engine is None:
-        start_database()
+    engine = registry.get(REGISTRY_NAME)
     factory = sessionmaker(bind=engine)
     return factory()
 
