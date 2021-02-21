@@ -1,0 +1,20 @@
+:root {
+    --background-color-1: #DEf2f1;
+    --background-color-1-light: #FEFFF9;
+    --background-color-1-dark: #3AAfA9;
+    --background-color-2: #2B7A78;
+    --background-color-2-light: #17252A;
+    --background-color-2-dark: #17252A;
+    --text-color-1: #111144;
+    --text-color-2: #EEEEEE;
+}
+
+body {
+    margin: 0 auto;
+    background-color: var(--background-color-1);
+    color: var(--text-color-1);
+}
+
+h1 {
+    text-align: center;
+}
