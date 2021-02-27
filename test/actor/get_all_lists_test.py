@@ -2,6 +2,8 @@ from app.actor import get_all_lists
 from test import database_helper
 import logging
 import pytest
+from app.model.list import List as ModelList
+from app.model.item import Item as ModelItem
 
 
 @pytest.fixture(autouse=True)
@@ -14,15 +16,19 @@ def run_around_tests():
 @database_helper.prepare_database(
     before=[
         'INSERT INTO list (id, list) VALUES (1, "list 1");',
-        'INSERT INTO list (id, list) VALUES (2, "list 2");'],
-    after=['DELETE FROM list WHERE id IN (1,2);'])
+        'INSERT INTO list (id, list) VALUES (2, "list 2");',
+        'INSERT INTO item (id, item, list) VALUES (1, "item 1", 1);'],
+    after=[
+        'DELETE FROM item WHERE id IN (1);',
+        'DELETE FROM list WHERE id IN (1, 2);'])
 def test_get_lists():
     lists = sorted(get_all_lists.run(None), key=lambda x: x.id)
-    assert 2 == len(lists)
-    assert 1 == lists[0].id
-    assert 'list 1' == lists[0].list
-    assert 2 == lists[1].id
-    assert 'list 2' == lists[1].list
+
+    expected_lists = [
+        ModelList(list_id=1, list_list='list 1', list_items=[ModelItem(1, 'item 1', 1)]),
+        ModelList(list_id=2, list_list='list 2', list_items=[])
+    ]
+    assert expected_lists == lists
 
 
 def test_get_lists_when_no_lists():

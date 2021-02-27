@@ -1,4 +1,5 @@
 import pytest
+
 from app import configuration
 from app.repository import database_connection
 
@@ -8,6 +9,8 @@ def load_configuration():
 
 
 def load_database():
+    from app.repository.model.list import List  # noqa
+    from app.repository.model.item import Item  # noqa
     database_connection.load()
 
 

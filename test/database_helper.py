@@ -26,7 +26,7 @@ def execute(*commands):
     for command in commands:
         cursor.execute(command)
     connection.commit()
-    return cursor
+    cursor.close()
 
 
 def query(sql):
@@ -53,4 +53,5 @@ def prepare_database(before, after):
 def test_clean_database_helper():
     connect_to_database()
     execute('DELETE FROM list;')
+    execute('DELETE FROM item;')
     disconnect_from_database()

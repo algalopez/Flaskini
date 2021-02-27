@@ -2,8 +2,11 @@ import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 import logging
 from app import registry, configuration
+from sqlalchemy.ext.declarative import declarative_base
 
 REGISTRY_NAME = 'database_engine'
+BASE_NAME = "database_base"
+BASE = declarative_base()
 
 
 def load():
@@ -17,6 +20,7 @@ def load():
     port = database_config.get('port')
     database = database_config.get('database')
     engine = sqlalchemy.create_engine(f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}")
+    BASE.metadata.bind = engine
     registry.register(REGISTRY_NAME, engine)
     return engine
 
