@@ -15,6 +15,7 @@ Tiny rest api for introducing python and flask
 2. **Install requirements**
 
 ```pip3 install -r requirements.txt```
+```python3 -m pip install -r requirements.txt```
    
 3. **Start the application**  
 

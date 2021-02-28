@@ -18,4 +18,3 @@ def run(request: int):
         list_dao.remove_list(session, request)
     finally:
         session.close()
-    return
