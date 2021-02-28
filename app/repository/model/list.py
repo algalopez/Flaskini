@@ -17,5 +17,5 @@ class List(BASE):
     items: List[Item] = relationship("Item", lazy='joined')
 
     def map_to_domain(self) -> ModelList:
-        return ModelList(self.id, self.list, list(map(lambda i: i.map_to_domain(), self.items)))
+        return ModelList(self.id, self.list, [item.map_to_domain() for item in self.items])
 

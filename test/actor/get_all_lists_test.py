@@ -1,9 +1,11 @@
-from app.actor import get_all_lists
-from test import database_helper
 import logging
+
 import pytest
-from app.model.list import List as ModelList
+
+from app.actor import get_all_lists
 from app.model.item import Item as ModelItem
+from app.model.list import List as ModelList
+from test import database_helper
 
 
 @pytest.fixture(autouse=True)

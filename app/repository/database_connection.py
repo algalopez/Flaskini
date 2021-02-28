@@ -1,8 +1,10 @@
-import sqlalchemy
-from sqlalchemy.orm import sessionmaker
 import logging
-from app import registry, configuration
+
+import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+from app import registry, configuration
 
 REGISTRY_NAME = 'database_engine'
 BASE_NAME = "database_base"
@@ -34,15 +36,28 @@ def get_session():
 def close_session(session):
     session.close()
 
-# def run_my_program():
-#     session = Session()
-#     try:
-#         ThingOne().go(session)
-#         ThingTwo().go(session)
-#
-#         session.commit()
-#     except:
-#         session.rollback()
-#         raise
-#     finally:
-#         session.close()
+
+def query_session(func):
+    def wrapper(*args, **kwargs):
+        session = get_session()
+        try:
+            func(*args, **kwargs)
+        finally:
+            session.close()
+
+    return wrapper
+
+
+def command_session(func):
+    def wrapper(*args, **kwargs):
+        session = get_session()
+        try:
+            func(*args, **kwargs)
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
+        finally:
+            session.close()
+
+    return wrapper

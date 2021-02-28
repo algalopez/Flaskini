@@ -1,23 +1,33 @@
 from typing import List
 
-from app.repository import database_connection
+from sqlalchemy.orm import Session
+
 from app.repository.model.list import List as RepositoryList
 
 
-def get_lists() -> List[RepositoryList]:
-    session = database_connection.get_session()
-    lists = session.query(RepositoryList).all()
-    session.close()
+def get_lists(session: Session) -> List[RepositoryList]:
+    lists: List[RepositoryList] = session.query(RepositoryList).all()
     return lists
 
-# new_rec = Orders(ShipName="placeholder", ShipCountry="USA")
-# session.add(new_rec)
-# session.commit()
-#
-# updated_rec = session.query(Orders).filter_by(SOME_ID_COLUMN="SOME_ID_VALUE").first()
-# updated_rec.ShipCountry = "USA"
-# session.commit()
-#
-# deleted_rec = session.query(Orders).filter_by(SOME_ID_COLUMN="SOME_ID_VALUE").first()
-# session.delete(deleted_rec)
-# session.commit()
+
+def get_list(session: Session, list_id) -> RepositoryList:
+    repository_list: RepositoryList = session.query(RepositoryList).get(list_id)
+    return repository_list
+
+
+def create_list(session: Session, new_list: RepositoryList) -> RepositoryList:
+    session.add(new_list)
+    session.commit()
+    return new_list
+
+
+def update_list(session: Session, list_id, map_of_changes) -> RepositoryList:
+    repository_list = session.query(RepositoryList).filter(RepositoryList.id == list_id).update(map_of_changes)
+    session.commit()
+    return repository_list
+
+
+def remove_list(session: Session, list_id) -> None:
+    element = session.query(RepositoryList).get(list_id)
+    session.delete(element)
+    session.commit()

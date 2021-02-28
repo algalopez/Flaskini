@@ -29,10 +29,20 @@ def execute(*commands):
     cursor.close()
 
 
-def query(sql):
+def query_all(sql):
     cursor = connection.cursor()
     cursor.execute(sql)
-    return cursor
+    result = cursor.fetchall()
+    cursor.close()
+    return result
+
+
+def query_one(sql):
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchone()
+    cursor.close()
+    return result
 
 
 def prepare_database(before, after):
